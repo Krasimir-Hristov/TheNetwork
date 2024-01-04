@@ -7,6 +7,8 @@ import RootLayout from './_root/RootLayout';
 import { Home } from './_root/pages';
 import './globals.css';
 
+import { Toaster } from '@/components/ui/toaster';
+
 const App = () => {
   return (
     <main className='flex h-screen'>
@@ -23,6 +25,8 @@ const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
+
+      <Toaster />
     </main>
   );
 };

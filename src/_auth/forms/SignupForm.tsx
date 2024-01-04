@@ -1,9 +1,13 @@
+import { Link } from 'react-router-dom';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useForm } from 'react-hook-form';
+import { useToast } from '@/components/ui/use-toast';
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,13 +18,13 @@ import { Input } from '@/components/ui/input';
 
 import { Button } from '@/components/ui/button';
 
-import { useForm } from 'react-hook-form';
 import { SignupValidation } from '@/lib/validation';
 import { z } from 'zod';
 import Loader from '@/components/shared/Loader';
-import { Link } from 'react-router-dom';
+import { createUserAccount } from '@/lib/appwrite/api';
 
 const SignupForm = () => {
+  const { toast } = useToast();
   const isLoading = false;
 
   // 1. Define your form.
@@ -36,7 +40,11 @@ const SignupForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // const newUser = await createUserAccount(values);
+    const newUser = await createUserAccount(values);
+
+    if (!newUser) {
+      return toast({ title: 'Sign up failed. Please try again.' });
+    }
   }
 
   return (
@@ -48,8 +56,8 @@ const SignupForm = () => {
           Create a new account
         </h2>
 
-        <p className='text-light-3 small-medium md:base-regular mt-2'>
-          To use The Network enter your account
+        <p className='text-teal-500 small-medium md:base-regular mt-2'>
+          To enter The Network, use your account
         </p>
 
         <form
@@ -123,7 +131,7 @@ const SignupForm = () => {
             Already have an account?
             <Link
               to='/sign-in'
-              className='text-primary-500 text-small-semibold ml-1'
+              className='text-teal-600 text-small-semibold ml-1'
             >
               Log in
             </Link>
