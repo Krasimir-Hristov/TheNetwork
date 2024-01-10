@@ -147,7 +147,10 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-          <Button type='submit' className='shad-button_primary'>
+          <Button
+            type='submit'
+            className='shad-button_primary hover:bg-primary-600'
+          >
             {isCreatingAccount ? (
               <div className='flex-center gap-2'>
                 {' '}
