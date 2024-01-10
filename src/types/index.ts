@@ -1,3 +1,4 @@
+import { Models } from 'appwrite';
 import React from 'react';
 
 export type IContextType = {
@@ -13,6 +14,15 @@ export type INavLink = {
   imgURL: string;
   route: string;
   label: string;
+};
+
+export type FileUploaderProps = {
+  fieldChange: (FILES: File[]) => void;
+  mediaUrl: string;
+};
+
+export type PostFormProps = {
+  post?: Models.Document;
 };
 
 export type IUpdateUser = {
