@@ -67,3 +67,7 @@ export type INewUser = {
   username: string;
   password: string;
 };
+
+export type PostCardProps = {
+  post: Models.Document;
+};
