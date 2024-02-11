@@ -23,6 +23,7 @@ export type FileUploaderProps = {
 
 export type PostFormProps = {
   post?: Models.Document;
+  action: 'Create' | 'Update';
 };
 
 export type IUpdateUser = {
