@@ -7,7 +7,11 @@ import {
 import {
   createPost,
   createUserAccount,
+  deleteSavedPost,
+  getCurrentUser,
   getRecentPosts,
+  likePost,
+  savePost,
   signInAccount,
   signOutAccount,
 } from '../appwrite/api';
@@ -50,5 +54,79 @@ export const useGetRecentPosts = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
     queryFn: getRecentPosts,
+  });
+};
+
+export const useLikePost = () => {
+  const querryClinet = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      postId,
+      likesArray,
+    }: {
+      postId: string;
+      likesArray: string[];
+    }) => likePost(postId, likesArray),
+    onSuccess: (data) => {
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POST_BY_ID, data?.$id],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
+export const useSavePost = () => {
+  const querryClinet = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ postId, userId }: { postId: string; userId: string }) =>
+      savePost(postId, userId),
+    onSuccess: () => {
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
+export const useDeleteSavedPost = () => {
+  const querryClinet = useQueryClient();
+
+  return useMutation({
+    mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
+    onSuccess: () => {
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      querryClinet.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
+export const useGetCurrentUser = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+    queryFn: getCurrentUser,
   });
 };

@@ -71,3 +71,8 @@ export type INewUser = {
 export type PostCardProps = {
   post: Models.Document;
 };
+
+export type PostStatsProps = {
+  post: Models.Document;
+  userId: string;
+};

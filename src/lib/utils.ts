@@ -10,3 +10,7 @@ export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return formatDistanceToNow(date, { addSuffix: true });
 }
+
+export const checkIsLiked = (likeList: string[], userId: string) => {
+  return likeList.includes(userId);
+};
